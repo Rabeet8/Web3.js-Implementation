@@ -1,47 +1,18 @@
-const { hdkey } = require("ethereumjs-wallet");
-const bip39 = require("bip39");
+const Web3API = require('web3');
 
 
-function generateNewSeedPhrase() {
-  const strength = 128; // Strength in bits (e.g., 12 words = 128 bits)
-  const seedPhrase = bip39.generateMnemonic(strength);
-  // const seedPhrase = generateNewSeed();
+const myFunction = () => {
 
-  // console.log("Seed Phrase Length", seedPhrase.length)
-  
-  const masterPrivateKey = hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(seedPhrase));
- 
-  
-  
-  const wallet = masterPrivateKey.derivePath("m/44'/60'/0'/0/0").getWallet();
-  
-// console.log("wallet", wallet)
-  const derivedPrivateKey = wallet.getPrivateKeyString();
+  const web3 = new Web3API(new Web3API.providers.HttpProvider('https://mainnet.infura.io'));
 
-  
-  const derivedPublicKey = wallet.getPublicKeyString();
-  
+  let newAccount = web3.eth.accounts.create(web3.utils.randomHex(32));
+  let newWallet = web3.eth.accounts.wallet.add(newAccount);
+  let newKeystore = newWallet.encrypt(web3.utils.randomHex(32));
 
-  const derivedAddress = wallet.getAddressString();
-
-  
-  console.log("Seed Phrase:", seedPhrase);
-  console.log("------------------------")
-  console.log("Master Private Key", masterPrivateKey)
-  console.log("------------------------")
-  console.log("Derived Private Key:", derivedPrivateKey);
-  console.log("------------------------------------")
-  console.log("Derived Public Key:", derivedPublicKey);
-  console.log("------------------------------------")
-  console.log("Derived Address:", derivedAddress);
-  console.log("------------------------------------")
-  
-  
-  
-return {
-  derivedPrivateKey,
-  derivedAddress,
+  console.log({
+    newAccount: newAccount,
+    newWallet: newWallet,
+    newKeystore: newKeystore
+  });
 };
-}
-
-const { derivedPrivateKey, derivedAddress } = generateNewSeedPhrase();
+myFunction();
