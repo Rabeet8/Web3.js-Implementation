@@ -3,7 +3,7 @@ const Web3API = require('web3');
 
 const myFunction = () => {
 
-  const web3 = new Web3API(new Web3API.providers.HttpProvider('https://mainnet.infura.io'));
+  const web3 = new Web3API(new Web3API.providers.HttpProvider('your URL here'));
 
   let newAccount = web3.eth.accounts.create(web3.utils.randomHex(32));
   let newWallet = web3.eth.accounts.wallet.add(newAccount);
